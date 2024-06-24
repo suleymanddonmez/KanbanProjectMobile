@@ -9,12 +9,15 @@ export type ThemedViewProps = ViewProps &
     isScrollable?: boolean;
   };
 
-export function ThemedView({ style, lightColor, darkColor, isScrollable = false, ...otherProps }: ThemedViewProps) {
+export function ThemedView({ style, className, lightColor, darkColor, isScrollable = false, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, "background");
-
+  let viewStyle = style;
+  if (!className?.includes("bg-")) {
+    viewStyle = [{ backgroundColor }, style];
+  }
   if (isScrollable) {
-    return <ScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
+    return <ScrollView style={viewStyle} className={className} {...otherProps} />;
   } else {
-    return <View style={[{ backgroundColor }, style]} {...otherProps} />;
+    return <View style={viewStyle} className={className} {...otherProps} />;
   }
 }

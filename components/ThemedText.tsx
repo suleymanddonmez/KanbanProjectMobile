@@ -1,5 +1,5 @@
-import { Text, type TextProps, StyleSheet } from "react-native";
-
+import React from "react";
+import { Text, type TextProps } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export type ThemedTextProps = TextProps & {
@@ -8,47 +8,15 @@ export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
 };
 
-export function ThemedText({ style, lightColor, darkColor, type = "default", ...rest }: ThemedTextProps) {
+export const ThemedText = React.forwardRef<Text, ThemedTextProps>(({ style, className, lightColor, darkColor, type = "default", ...rest }, ref) => {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
-
-  return (
-    <Text
-      style={[
-        { color },
-        type === "default" ? styles.default : undefined,
-        type === "title" ? styles.title : undefined,
-        type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
-        type === "subtitle" ? styles.subtitle : undefined,
-        type === "link" ? styles.link : undefined,
-        style,
-      ]}
-      {...rest}
-    />
-  );
-}
-
-const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "600",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    textDecorationLine: "underline",
-  },
+  return <Text style={[{ color }, style]} className={`${nativeWindStyles?.[type]} ${className || ""}`} {...rest} />;
 });
+
+const nativeWindStyles = {
+  default: "text-base leading-normal",
+  title: "text-3xl leading-8 font-bold",
+  defaultSemiBold: "text-base leading-normal font-bold",
+  subtitle: "text-lg leading-normal font-bold",
+  link: "text-sm leading-7 underline",
+};

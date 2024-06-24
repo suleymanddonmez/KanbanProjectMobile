@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { useState } from "react";
 import { router } from "expo-router";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedButton } from "@/components/ThemedButton";
-import { PageHeader } from "@/components/PageHeader";
 import { ProjectType, fetchApi } from "@/api/BaseAction";
+import { PageWrapper } from "@/components/PageWrapper";
+import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { AlertBox } from "@/components/AlertBox";
+import { PageLoader } from "@/components/PageLoader";
 
-export default function New() {
+export default function NewProject() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function New() {
         title: title,
       });
       if (response.success) {
-        router.push(`/`);
+        router.replace("/");
       } else {
         setError(response.error || "An error occurred!");
       }
@@ -36,29 +38,27 @@ export default function New() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <PageHeader
-          title={"New Project"}
-          headerAction={{
+    <PageWrapper
+      pageHeaderProps={{
+        title: "New Project",
+        headerActions: [
+          {
             title: "All Projects",
             link: "/",
-          }}
-        />
-        <ThemedView contentContainerStyle={styles.formContainer} isScrollable={true}>
-          <ThemedText>Yeni Form</ThemedText>
+          },
+        ],
+      }}
+    >
+      <PageLoader visible={isLoading} />
+      <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
+        <ThemedTextInput label={"Project Title"} onChangeText={setTitle} value={title} className="my-2"></ThemedTextInput>
+        <ThemedView className="flex-row bg-transparent">
+          <ThemedButton size="small" disabled={isLoading} onPress={saveProject}>
+            <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Project"}</ThemedText>
+          </ThemedButton>
         </ThemedView>
-      </SafeAreaView>
-    </ThemedView>
+      </ThemedView>
+      <AlertBox visible={error != ""} text={error} status={"error"} onClose={() => setError("")} />
+    </PageWrapper>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "flex-start",
-  },
-  formContainer: {
-    backgroundColor: "rgb(38,38,38)",
-  },
-});

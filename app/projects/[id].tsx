@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, SafeAreaView, RefreshControl } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedButton } from "@/components/ThemedButton";
-import { PageHeader } from "@/components/PageHeader";
 import { ProjectType, fetchApi } from "@/api/BaseAction";
-import TaskList from "@/components/TaskList";
+import { TaskList } from "@/components/TaskList";
+import { PageWrapper } from "@/components/PageWrapper";
 
 const notDeleteableProjectId = "6666f966a149e14e2e550f39";
 const defaultTaskLists = ["Backlog", "To do", "In progress", "Designed"];
@@ -14,6 +11,7 @@ const defaultTaskLists = ["Backlog", "To do", "In progress", "Designed"];
 export default function Project() {
   const [project, setProject] = useState<ProjectType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { id } = useLocalSearchParams();
   const projectId = id?.toString();
   const notDeletable = notDeleteableProjectId == id;
@@ -22,9 +20,9 @@ export default function Project() {
     getProject();
   }, [id]);
 
-  const getProject = async () => {
+  const getProject = async (isRefresh?: boolean) => {
     if (projectId) {
-      setIsLoading(true);
+      setLoading(true, isRefresh);
       const response = await fetchApi<ProjectType>(`/api/projects/${projectId}`);
       if (response.success) {
         setProject(response.data);
@@ -32,7 +30,7 @@ export default function Project() {
         console.log(response.error);
         alert("An error occurred!");
       }
-      setIsLoading(false);
+      setLoading(false, isRefresh);
     }
   };
 
@@ -63,45 +61,54 @@ export default function Project() {
     }
   };
 
+  const setLoading = (value: boolean, isRefresh?: boolean) => {
+    if (isRefresh) {
+      setIsRefreshing(value);
+    } else {
+      setIsLoading(value);
+    }
+  };
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <PageHeader
-          title={"New Project"}
-          headerAction={{
+    <PageWrapper
+      pageHeaderProps={{
+        title: `${project?.title || "Project Details"}`,
+        deleteAction: {
+          title: "X",
+          onPress: () => deleteProject(),
+          style: {
+            backgroundColor: "rgb(239,68,68)",
+            marginLeft: 2,
+            borderRadius: "50%",
+          },
+        },
+        headerActions: [
+          {
             title: "All Projects",
             link: "/",
-          }}
-        />
-        <ThemedView
-          contentContainerStyle={styles.itemListContainer}
-          isScrollable={true}
-          refreshControl={<RefreshControl refreshing={isLoading} onRefresh={() => getProject()} title={"Loading..."} />}
-        >
-          {project?.items?.map((taskList) => (
-            <TaskList key={taskList.id} taskList={taskList} />
-          ))}
-        </ThemedView>
-      </SafeAreaView>
-    </ThemedView>
+          },
+          {
+            title: "New Task List",
+            link: `/taskLists/new/${projectId}`,
+          },
+        ],
+      }}
+      isLoading={isLoading}
+      isRefreshing={isRefreshing}
+      onRefresh={() => getProject(true)}
+    >
+      {project?.items?.length ? (
+        project.items.map((taskList) => (
+          <TaskList
+            key={taskList.id}
+            taskList={taskList}
+            notDeletable={notDeletable && defaultTaskLists.indexOf(taskList.title) > -1}
+            refreshProject={() => getProject(true)}
+          />
+        ))
+      ) : (
+        <ThemedText type="subtitle">There is no TaskList in this project!</ThemedText>
+      )}
+    </PageWrapper>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "flex-start",
-  },
-  headerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-  },
-  itemListContainer: {
-    display: "flex",
-    gap: 10,
-    padding: 10,
-  },
-});

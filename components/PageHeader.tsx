@@ -1,19 +1,24 @@
-import { StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 import { canOpenURL, openURL } from "expo-linking";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedButton } from "@/components/ThemedButton";
 
-interface PageHeaderType {
+export interface PageHeaderType {
   title: string;
-  headerAction?: {
-    title: string;
-    link: string;
-  };
+  deleteAction?: HeaderActionType;
+  headerActions?: HeaderActionType[];
 }
 
-export function PageHeader({ title, headerAction }: PageHeaderType) {
+interface HeaderActionType {
+  title: string;
+  link?: string;
+  onPress?: () => void;
+  style?: Object;
+}
+
+export function PageHeader({ title, deleteAction, headerActions }: PageHeaderType) {
   const goToAuthorPage = async () => {
     let authorUrl = "https://www.linkedin.com/in/suleymanddonmez/";
     let isValidUrl = await canOpenURL(authorUrl);
@@ -23,31 +28,44 @@ export function PageHeader({ title, headerAction }: PageHeaderType) {
       alert("Invalid URL!");
     }
   };
+
+  const onPressAction = (link: string) => {
+    if (link) {
+      router.navigate(link);
+    }
+  };
+
   return (
-    <ThemedView style={styles.headerContainer}>
+    <ThemedView className="p-4 flex-row justify-between items-center">
       <ThemedView>
-        <ThemedText type="title">{title}</ThemedText>
+        <ThemedView className="flex-row items-center justify-center">
+          <ThemedText type="title">{title}</ThemedText>
+          {deleteAction && (
+            <ThemedButton size="small" onPress={deleteAction.onPress} style={deleteAction.style}>
+              <ThemedText type="defaultSemiBold" className="text-xs">
+                {deleteAction.title}
+              </ThemedText>
+            </ThemedButton>
+          )}
+        </ThemedView>
+
         <TouchableWithoutFeedback onPress={goToAuthorPage}>
           <ThemedText type="link">by Süleyman Dönmez</ThemedText>
         </TouchableWithoutFeedback>
       </ThemedView>
-      {headerAction && (
-        <Link href={headerAction.link} asChild>
-          <ThemedButton>
-            <ThemedText type="defaultSemiBold">{headerAction.title}</ThemedText>
-          </ThemedButton>
-        </Link>
-      )}
+      <ThemedView className="gap-1">
+        {headerActions?.length &&
+          headerActions.map((headerAction, index) => (
+            <ThemedButton
+              key={index}
+              size="small"
+              onPress={() => (headerAction.link ? onPressAction(headerAction.link) : headerAction.onPress?.())}
+              style={headerAction.style}
+            >
+              <ThemedText type="defaultSemiBold">{headerAction.title}</ThemedText>
+            </ThemedButton>
+          ))}
+      </ThemedView>
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-  },
-});
