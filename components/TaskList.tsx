@@ -33,7 +33,7 @@ export function TaskList({ taskList, notDeletable = false, refreshProject }: Tas
   };
 
   return (
-    <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
+    <ThemedView className="p-4 rounded-xl mb-4" themeColorName="taskListBackground">
       <ThemedView className="flex-row justify-between items-center mb-4 bg-transparent">
         <ThemedView className="flex-row bg-transparent items-center justify-center">
           <ThemedText type="title">{title}</ThemedText>
@@ -46,13 +46,13 @@ export function TaskList({ taskList, notDeletable = false, refreshProject }: Tas
               borderRadius: 50,
             }}
           >
-            <ThemedText type="defaultSemiBold" className="text-xs">
+            <ThemedText type="defaultSemiBold" className="text-xs" themeColorName={"white"}>
               X
             </ThemedText>
           </ThemedButton>
         </ThemedView>
         <ThemedButton size="small" onPress={onPressNewTask}>
-          <ThemedText type="defaultSemiBold">+ New Task</ThemedText>
+          <ThemedText type="defaultSemiBold" themeColorName={"white"}>+ New Task</ThemedText>
         </ThemedButton>
       </ThemedView>
       {items?.map((task) => (

@@ -4,6 +4,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
+import { Colors } from "@/constants/Colors";
 
 export type ThemedSelectInputProps = {
   label: string;
@@ -13,6 +14,8 @@ export type ThemedSelectInputProps = {
   items: SelectType[];
   onChangeValue: React.Dispatch<React.SetStateAction<string>> | React.Dispatch<React.SetStateAction<string[]>>;
   multiple?: boolean;
+  textThemeColorName?: keyof typeof Colors.light & keyof typeof Colors.dark;
+  backgroundThemeColorName?: keyof typeof Colors.light & keyof typeof Colors.dark;
 };
 
 export interface SelectType {
@@ -20,10 +23,21 @@ export interface SelectType {
   value: string;
 }
 
-export function ThemedSelectInput({ label, value, items, onChangeValue, multiple = false, lightColor, darkColor, ...rest }: ThemedSelectInputProps) {
+export function ThemedSelectInput({
+  label,
+  value,
+  items,
+  onChangeValue,
+  multiple = false,
+  lightColor,
+  darkColor,
+  textThemeColorName = "text",
+  backgroundThemeColorName = "background",
+  ...rest
+}: ThemedSelectInputProps) {
   const colorScheme = useColorScheme();
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, "background");
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, backgroundThemeColorName);
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, textThemeColorName);
   const [open, setOpen] = useState(false);
 
   const getMultipleText = () => {

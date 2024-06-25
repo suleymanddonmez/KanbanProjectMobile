@@ -60,11 +60,13 @@ export default function NewProject() {
       }}
     >
       <PageLoader visible={isLoading} />
-      <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
+      <ThemedView className="p-4 rounded-xl mb-4" themeColorName="formBackground">
         <ThemedTextInput label={"Task List Title"} onChangeText={setTitle} value={title} className="my-2"></ThemedTextInput>
         <ThemedView className="flex-row justify-end bg-transparent mt-2">
           <ThemedButton disabled={isLoading} onPress={saveTaskList} color="success">
-            <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Task List"}</ThemedText>
+            <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+              {isLoading ? "Loading" : "Save Task List"}
+            </ThemedText>
           </ThemedButton>
         </ThemedView>
       </ThemedView>

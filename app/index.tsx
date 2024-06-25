@@ -65,7 +65,7 @@ export default function Index() {
           }}
           asChild
         >
-          <ThemedButton key={project.id} style={styles.projectButton}>
+          <ThemedButton key={project.id} style={styles.projectButton} color="default">
             <ThemedText type="defaultSemiBold" style={styles.projectButtonText}>
               {project.title}
             </ThemedText>
@@ -79,7 +79,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   projectButton: {
     width: "100%",
-    backgroundColor: "rgb(38,38,38)",
   },
   projectButtonText: {
     textAlign: "center",

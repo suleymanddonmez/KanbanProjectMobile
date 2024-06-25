@@ -23,9 +23,11 @@ export function AlertBox({ visible, text, status, onClose }: AlertBoxType) {
     <>
       {visible && (
         <ThemedView className={`p-4 mb-4 flex-row items-center justify-between rounded-xl bg-${colors[status]}-500`}>
-          <ThemedText type="defaultSemiBold">{text}</ThemedText>
+          <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+            {text}
+          </ThemedText>
           {onClose && (
-            <ThemedButton onPress={onClose} type="default" size="small">
+            <ThemedButton onPress={onClose} color="default" size="small">
               <ThemedText>X</ThemedText>
             </ThemedButton>
           )}

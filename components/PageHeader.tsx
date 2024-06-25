@@ -42,7 +42,7 @@ export function PageHeader({ title, deleteAction, headerActions }: PageHeaderTyp
           <ThemedText type="title">{title}</ThemedText>
           {deleteAction && (
             <ThemedButton size="small" onPress={deleteAction.onPress} style={deleteAction.style}>
-              <ThemedText type="defaultSemiBold" className="text-xs">
+              <ThemedText type="defaultSemiBold" className="text-xs" themeColorName={"white"}>
                 {deleteAction.title}
               </ThemedText>
             </ThemedButton>
@@ -62,7 +62,9 @@ export function PageHeader({ title, deleteAction, headerActions }: PageHeaderTyp
               onPress={() => (headerAction.link ? onPressAction(headerAction.link) : headerAction.onPress?.())}
               style={headerAction.style}
             >
-              <ThemedText type="defaultSemiBold">{headerAction.title}</ThemedText>
+              <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+                {headerAction.title}
+              </ThemedText>
             </ThemedButton>
           ))}
       </ThemedView>

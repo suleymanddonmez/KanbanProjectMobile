@@ -12,10 +12,18 @@ export function Task({ task }: TaskPropsType) {
   return (
     <ThemedView className={`p-3 ${task.color ? "bg-" + task.color : "bg-indigo-400"} mb-4 rounded-lg task-item relative`}>
       <Link className="absolute text-xs ml-2 right-2 top-1 cursor-pointer" href={`/tasks/${task.id}`} asChild>
-        <ThemedText type="link">Edit</ThemedText>
+        <ThemedText type="link" themeColorName={"white"}>
+          Edit
+        </ThemedText>
       </Link>
-      <ThemedText type="defaultSemiBold">{task.title}</ThemedText>
-      {task.description && <ThemedText className="mt-2">{task.description}</ThemedText>}
+      <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+        {task.title}
+      </ThemedText>
+      {task.description && (
+        <ThemedText className="mt-2" themeColorName={"white"}>
+          {task.description}
+        </ThemedText>
+      )}
       {task.tags.length > 0 && <TaskTags tags={task.tags} />}
     </ThemedView>
   );
@@ -30,7 +38,7 @@ function TaskTags({ tags }: TaskTagsPropsType) {
   return (
     <>
       {selectedTags && (
-        <ThemedText type="link" className="text-sm py-1">
+        <ThemedText type="link" className="text-sm py-1" themeColorName={"white"}>
           {selectedTags}
         </ThemedText>
       )}

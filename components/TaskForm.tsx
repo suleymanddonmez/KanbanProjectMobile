@@ -89,7 +89,7 @@ export function TaskForm({ taskInfo, onSave, onDelete, isLoading }: TaskFormProp
 
   return (
     <>
-      <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
+      <ThemedView className="p-4 rounded-xl mb-4" themeColorName="formBackground">
         <ThemedTextInput label={"Task Title"} onChangeText={setTitle} value={title} />
         <ThemedTextInput label={"Task Description"} onChangeText={setDescription} value={description} type="textarea" />
         <ThemedSelectInput label={"Task Color"} onChangeValue={setColor} value={color} items={colors} />
@@ -97,11 +97,15 @@ export function TaskForm({ taskInfo, onSave, onDelete, isLoading }: TaskFormProp
         <ThemedView className={`flex-row justify-${onDelete ? "between" : "end"} bg-transparent mt-2`}>
           {onDelete && (
             <ThemedButton disabled={isLoading} onPress={handleSave} color={"error"}>
-              <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Delete Task"}</ThemedText>
+              <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+                {isLoading ? "Loading" : "Delete Task"}
+              </ThemedText>
             </ThemedButton>
           )}
           <ThemedButton disabled={isLoading} onPress={handleSave} color="success">
-            <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Task"}</ThemedText>
+            <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+              {isLoading ? "Loading" : "Save Task"}
+            </ThemedText>
           </ThemedButton>
         </ThemedView>
       </ThemedView>
