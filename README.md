@@ -10,7 +10,7 @@ This project is a Kanban Task mobile application developed using Expo and React 
 - **NativeWind v4 CSS:** NativeWind is utilized for styling the application. It combines the utility-first approach of Tailwind CSS with React Native's styling system, allowing for rapid and consistent UI development.
 
 You can access the live version of the project through the following link:
-- [Kanban Task Project Mobile App](https://expo.dev/preview/update?slug=exp&projectId=e7f479c3-e2fa-4e29-aa4d-34b50727d9c9&group=4fa1b28a-3a70-4b4e-af58-de7761c4ac6e) 
+- [Kanban Task Project Mobile App](https://expo.dev/preview/update?slug=exp&projectId=e7f479c3-e2fa-4e29-aa4d-34b50727d9c9&group=446998a1-310e-40e8-a570-32c443f9e29a) 
 
 ### Features
 
