@@ -1,6 +1,6 @@
 ## Kanban Task Mobile App
 
-This project is a Kanban Task mobile application developed using Expo and React Native, leveraging the backend of an existing Next.js and MongoDB-based [Kanban Task Project]((https://github.com/suleymanddonmez/KanbanProject) application. The project is designed to provide a seamless and efficient Kanban task management experience on mobile devices..
+This project is a Kanban Task mobile application developed using Expo and React Native, leveraging the backend of an existing Next.js and MongoDB-based [Kanban Task Project](https://github.com/suleymanddonmez/KanbanProject) application. The project is designed to provide a seamless and efficient Kanban task management experience on mobile devices..
 
 ### Technologies Used
 
