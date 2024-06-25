@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedButton } from "@/components/ThemedButton";
-import { ProjectType, fetchApi } from "@/api/BaseAction";
+import { TaskListType, fetchApi } from "@/api/BaseAction";
 import { PageWrapper } from "@/components/PageWrapper";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { AlertBox } from "@/components/AlertBox";
@@ -13,23 +13,27 @@ export default function NewProject() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { id } = useLocalSearchParams();
+  const projectId = id?.toString();
 
   const validateForm = () => {
     if (!title) {
-      setError("Project title is required!");
+      setError("Task List title is required!");
       return false;
     }
     setError("");
     return true;
   };
-  const saveProject = async () => {
+
+  const saveTaskList = async () => {
     setIsLoading(true);
     if (validateForm()) {
-      const response = await fetchApi<ProjectType>("/api/projects", "POST", {
+      const response = await fetchApi<TaskListType>("/api/taskLists", "POST", {
         title: title,
+        projectId: projectId,
       });
       if (response.success) {
-        router.replace("/");
+        router.push(`/projects/${projectId}`);
       } else {
         setError(response.error || "An error occurred!");
       }
@@ -40,21 +44,27 @@ export default function NewProject() {
   return (
     <PageWrapper
       pageHeaderProps={{
-        title: "New Project",
+        title: "New Task List",
         headerActions: [
           {
             title: "All Projects",
             link: "/",
+          },
+          {
+            title: "Return To Project",
+            onPress: () => {
+              router.back();
+            },
           },
         ],
       }}
     >
       <PageLoader visible={isLoading} />
       <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
-        <ThemedTextInput label={"Project Title"} onChangeText={setTitle} value={title} className="my-2"></ThemedTextInput>
+        <ThemedTextInput label={"Task List Title"} onChangeText={setTitle} value={title} className="my-2"></ThemedTextInput>
         <ThemedView className="flex-row justify-end bg-transparent mt-2">
-          <ThemedButton disabled={isLoading} onPress={saveProject} color="success">
-            <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Project"}</ThemedText>
+          <ThemedButton disabled={isLoading} onPress={saveTaskList} color="success">
+            <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Task List"}</ThemedText>
           </ThemedButton>
         </ThemedView>
       </ThemedView>

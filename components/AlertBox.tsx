@@ -15,7 +15,7 @@ const colors = {
   info: "sky",
   error: "red",
   warning: "yellow",
-  success: "green",
+  success: "emerald",
 };
 
 export function AlertBox({ visible, text, status, onClose }: AlertBoxType) {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { ThemedText } from "@/components/ThemedText";
 import { ProjectType, fetchApi } from "@/api/BaseAction";
 import { TaskList } from "@/components/TaskList";
@@ -19,6 +19,12 @@ export default function Project() {
   useEffect(() => {
     getProject();
   }, [id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      getProject();
+    }, [])
+  );
 
   const getProject = async (isRefresh?: boolean) => {
     if (projectId) {

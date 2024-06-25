@@ -26,16 +26,13 @@ interface TaskTagsPropsType {
 }
 
 function TaskTags({ tags }: TaskTagsPropsType) {
+  let selectedTags = tags.length > 0 ? tags.join(", ") : null;
   return (
     <>
-      {tags.length > 0 && (
-        <>
-          {tags.map((tag, index) => (
-            <ThemedText key={`tag_${index}`} type="link" className="text-sm px-2 py-1">
-              {tag}
-            </ThemedText>
-          ))}
-        </>
+      {selectedTags && (
+        <ThemedText type="link" className="text-sm py-1">
+          {selectedTags}
+        </ThemedText>
       )}
     </>
   );

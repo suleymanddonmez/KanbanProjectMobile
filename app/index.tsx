@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ProjectType, fetchApi } from "@/api/BaseAction";
 import { PageWrapper } from "@/components/PageWrapper";
-import { ThemedSelectInput } from "@/components/ThemedSelectInput";
 
 export default function Index() {
   const [projects, setProjects] = useState<ProjectType[]>();
@@ -15,6 +14,12 @@ export default function Index() {
   useEffect(() => {
     getProjects();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getProjects();
+    }, [])
+  );
 
   const getProjects = async (isRefresh?: boolean) => {
     setLoading(true, isRefresh);
@@ -51,7 +56,7 @@ export default function Index() {
       isRefreshing={isRefreshing}
       onRefresh={() => getProjects(true)}
     >
-      {/* {projects?.map((project) => (
+      {projects?.map((project) => (
         <Link
           key={project.id}
           href={{
@@ -66,8 +71,7 @@ export default function Index() {
             </ThemedText>
           </ThemedButton>
         </Link>
-      ))} */}
-      <ThemedSelectInput />
+      ))}
     </PageWrapper>
   );
 }

@@ -7,18 +7,19 @@ interface PageWrapperType {
   pageHeaderProps: PageHeaderType;
   isLoading?: boolean;
   isRefreshing?: boolean;
+  disableScroll?: boolean;
   onRefresh?: () => void;
   children: React.ReactNode;
 }
 
-export function PageWrapper({ pageHeaderProps, isLoading, isRefreshing, onRefresh, children }: PageWrapperType) {
+export function PageWrapper({ pageHeaderProps, isLoading, disableScroll, isRefreshing, onRefresh, children }: PageWrapperType) {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.container}>
         <PageHeader {...pageHeaderProps} />
         <ThemedView
           contentContainerStyle={styles.itemListContainer}
-          isScrollable={true}
+          isScrollable={disableScroll ? false : true}
           refreshControl={<RefreshControl refreshing={isRefreshing || false} onRefresh={onRefresh} title={"Loading..."} />}
         >
           {isLoading ? <PageLoader visible={isLoading} /> : children}

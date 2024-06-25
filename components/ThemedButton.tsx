@@ -5,18 +5,40 @@ export type ThemedButtonProps = TouchableHighlightProps & {
   buttonStyle?: StyleProp<ViewStyle>;
   size?: "medium" | "small";
   type?: "custom" | "default";
+  color?: "indigo" | "info" | "error" | "warning" | "success";
 };
 
-export const ThemedButton = React.forwardRef<TouchableHighlight, ThemedButtonProps>(({ style, size = "medium", type = "custom", ...rest }, ref) => {
-  return (
-    <TouchableHighlight ref={ref} style={[styles?.[type], styles?.[size], style]} activeOpacity={0.6} underlayColor={"rgb(82,82,82)"} {...rest} />
-  );
-});
+export const ThemedButton = React.forwardRef<TouchableHighlight, ThemedButtonProps>(
+  ({ style, size = "medium", type = "custom", color = "indigo", ...rest }, ref) => {
+    return (
+      <TouchableHighlight
+        ref={ref}
+        style={[styles?.[type], styles?.[color], styles?.[size], style]}
+        activeOpacity={0.6}
+        underlayColor={"rgb(82,82,82)"}
+        {...rest}
+      />
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   default: {},
-  custom: {
+  custom: {},
+  indigo: {
     backgroundColor: "rgb(99,102,241)",
+  },
+  info: {
+    backgroundColor: "rgb(14,165,233)",
+  },
+  error: {
+    backgroundColor: "rgb(239,68,68)",
+  },
+  warning: {
+    backgroundColor: "rgb(234,179,8)",
+  },
+  success: {
+    backgroundColor: "rgb(16,185,129)",
   },
   medium: {
     padding: 15,

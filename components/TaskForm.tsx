@@ -7,7 +7,7 @@ import { ThemedTextInput } from "./ThemedTextInput";
 import { ThemedButton } from "./ThemedButton";
 import { ThemedText } from "./ThemedText";
 import { AlertBox } from "./AlertBox";
-import { ThemedSelectInput } from "./ThemedSelectInput";
+import { SelectType, ThemedSelectInput } from "./ThemedSelectInput";
 
 interface TaskFormPropsType {
   taskInfo: TaskType;
@@ -16,45 +16,40 @@ interface TaskFormPropsType {
   isLoading: boolean;
 }
 
-interface SelectType {
-  text: string;
-  value: string;
-}
-
 const colors: SelectType[] = [
   {
-    text: "Red",
+    label: "Red",
     value: "red-500",
   },
   {
-    text: "Blue",
+    label: "Blue",
     value: "blue-500",
   },
   {
-    text: "Indigo",
+    label: "Indigo",
     value: "indigo-400",
   },
   {
-    text: "Emerald",
+    label: "Emerald",
     value: "emerald-500",
   },
   {
-    text: "Purple",
+    label: "Purple",
     value: "purple-500",
   },
 ];
 
 const categories: SelectType[] = [
   {
-    text: "Formatting",
+    label: "Formatting",
     value: "Formatting",
   },
   {
-    text: "Note interface",
+    label: "Note interface",
     value: "Note interface",
   },
   {
-    text: "New note",
+    label: "New note",
     value: "New note",
   },
 ];
@@ -95,12 +90,17 @@ export function TaskForm({ taskInfo, onSave, onDelete, isLoading }: TaskFormProp
   return (
     <>
       <ThemedView className="p-4 rounded-xl mb-4" darkColor="rgb(38,38,38)">
-        <ThemedTextInput label={"Task Title"} onChangeText={setTitle} value={title} className="my-2" />
-        <ThemedTextInput label={"Task Description"} onChangeText={setDescription} value={description} className="my-2" type="textarea" />
-        {/* <ThemedSelectList label={"Task Color"} setSelected={(val: string) => setColor(val)} data={colors} save="value" /> */}
-        <ThemedSelectInput />
-        <ThemedView className="flex-row bg-transparent">
-          <ThemedButton size="small" disabled={isLoading} onPress={handleSave}>
+        <ThemedTextInput label={"Task Title"} onChangeText={setTitle} value={title} />
+        <ThemedTextInput label={"Task Description"} onChangeText={setDescription} value={description} type="textarea" />
+        <ThemedSelectInput label={"Task Color"} onChangeValue={setColor} value={color} items={colors} />
+        <ThemedSelectInput label={"Task Tags"} onChangeValue={setTags} value={tags} items={categories} multiple />
+        <ThemedView className={`flex-row justify-${onDelete ? "between" : "end"} bg-transparent mt-2`}>
+          {onDelete && (
+            <ThemedButton disabled={isLoading} onPress={handleSave} color={"error"}>
+              <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Delete Task"}</ThemedText>
+            </ThemedButton>
+          )}
+          <ThemedButton disabled={isLoading} onPress={handleSave} color="success">
             <ThemedText type="defaultSemiBold">{isLoading ? "Loading" : "Save Task"}</ThemedText>
           </ThemedButton>
         </ThemedView>

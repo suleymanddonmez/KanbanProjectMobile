@@ -21,11 +21,17 @@ export const ThemedTextInput = React.forwardRef<TextInput, ThemedTextInputProps>
     }
 
     return (
-      <ThemedView className="bg-transparent">
+      <ThemedView className="bg-transparent my-2">
         <ThemedText type="defaultSemiBold">{label}</ThemedText>
         <TextInput
-          style={viewStyle}
-          className={`mt-2 p-2 rounded-md ${className || ""}`}
+          style={[viewStyle, {
+            borderWidth: 1,
+            // paddingTop: 15,
+            // paddingBottom: 15,
+            // paddingLeft: 10,
+            // paddingRight: 10,
+          }]}
+          className={`mt-2 px-3 py-5 rounded-xl ${className || ""}`}
           multiline={type == "textarea"}
           numberOfLines={type == "textarea" ? 4 : 1}
           {...rest}

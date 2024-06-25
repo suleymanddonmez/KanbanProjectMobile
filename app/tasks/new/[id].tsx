@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedButton } from "@/components/ThemedButton";
-import { ProjectType, TaskType, fetchApi } from "@/api/BaseAction";
+import { TaskType, fetchApi } from "@/api/BaseAction";
 import { PageWrapper } from "@/components/PageWrapper";
-import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { AlertBox } from "@/components/AlertBox";
 import { PageLoader } from "@/components/PageLoader";
 import { TaskForm } from "@/components/TaskForm";
@@ -42,6 +39,12 @@ export default function NewTask() {
             title: "All Projects",
             link: "/",
           },
+          {
+            title: "Return To Project",
+            onPress: () => {
+              router.back();
+            },
+          },
         ],
       }}
     >
@@ -55,6 +58,7 @@ export default function NewTask() {
       ) : (
         <ThemedText type="subtitle">Task List id required!</ThemedText>
       )}
+      <AlertBox visible={error != ""} text={error} status={"error"} onClose={() => setError("")} />
     </PageWrapper>
   );
 }
