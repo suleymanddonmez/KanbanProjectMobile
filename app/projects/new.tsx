@@ -8,6 +8,7 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { AlertBox } from "@/components/AlertBox";
 import { PageLoader } from "@/components/PageLoader";
+import { Button } from "react-native";
 
 export default function NewProject() {
   const [title, setTitle] = useState("");

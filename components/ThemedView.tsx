@@ -19,7 +19,7 @@ export const ThemedView = React.forwardRef<View | ScrollView, ThemedViewProps>(
       viewStyle = [{ backgroundColor }, style];
     }
     if (isScrollable) {
-      return <ScrollView style={viewStyle} contentContainerStyle={contentContainerStyle} className={className} {...otherProps} />;
+      return <ScrollView style={viewStyle} contentContainerStyle={contentContainerStyle} className={className} {...otherProps} automaticallyAdjustKeyboardInsets automaticallyAdjustContentInsets automaticallyAdjustsScrollIndicatorInsets keyboardShouldPersistTaps="handled" />;
     } else {
       return <View style={[viewStyle, contentContainerStyle]} className={className} {...otherProps} />;
     }
