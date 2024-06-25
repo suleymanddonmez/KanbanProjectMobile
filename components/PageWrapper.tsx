@@ -1,7 +1,8 @@
-import { RefreshControl, SafeAreaView, StyleSheet } from "react-native";
+import { RefreshControl, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { PageHeader, PageHeaderType } from "./PageHeader";
 import { PageLoader } from "./PageLoader";
+import { MainWrapper } from "./MainWrapper";
 
 interface PageWrapperType {
   pageHeaderProps: PageHeaderType;
@@ -15,7 +16,7 @@ interface PageWrapperType {
 export function PageWrapper({ pageHeaderProps, isLoading, disableScroll, isRefreshing, onRefresh, children }: PageWrapperType) {
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <MainWrapper>
         <PageHeader {...pageHeaderProps} />
         <ThemedView
           contentContainerStyle={styles.itemListContainer}
@@ -24,7 +25,7 @@ export function PageWrapper({ pageHeaderProps, isLoading, disableScroll, isRefre
         >
           {isLoading ? <PageLoader visible={isLoading} /> : children}
         </ThemedView>
-      </SafeAreaView>
+      </MainWrapper>
     </ThemedView>
   );
 }

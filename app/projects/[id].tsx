@@ -34,7 +34,7 @@ export default function Project() {
         setProject(response.data);
       } else {
         console.log(response.error);
-        alert("An error occurred!");
+        // alert("An error occurred!");
       }
       setLoading(false, isRefresh);
     }
@@ -57,13 +57,15 @@ export default function Project() {
         alert("This project is example project. It is not deletable! Please try in another project.");
         return;
       }
+      setLoading(true, true);
       const response = await fetchApi<ProjectType>(`/api/projects/${id}`, "DELETE");
       if (response.success) {
-        router.push(`/`);
+        router.replace("/");
       } else {
         console.log(response.error);
-        alert("An error occurred!");
+        // alert("An error occurred!");
       }
+      setLoading(false, true);
     }
   };
 
@@ -85,7 +87,7 @@ export default function Project() {
           style: {
             backgroundColor: "rgb(239,68,68)",
             marginLeft: 2,
-            borderRadius: "50%",
+            borderRadius: 50,
           },
         },
         headerActions: [
@@ -110,6 +112,8 @@ export default function Project() {
             taskList={taskList}
             notDeletable={notDeletable && defaultTaskLists.indexOf(taskList.title) > -1}
             refreshProject={() => getProject(true)}
+            isLoading={isRefreshing}
+            setLoading={(val) => setLoading(val, true)}
           />
         ))
       ) : (

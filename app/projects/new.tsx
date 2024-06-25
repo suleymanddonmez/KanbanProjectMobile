@@ -29,7 +29,11 @@ export default function NewProject() {
         title: title,
       });
       if (response.success) {
-        router.replace("/");
+        if (response.data?.id) {
+          router.replace(`/projects/${response?.data?.id}`);
+        } else {
+          router.replace(`/`);
+        }
       } else {
         setError(response.error || "An error occurred!");
       }
@@ -54,7 +58,9 @@ export default function NewProject() {
         <ThemedTextInput label={"Project Title"} onChangeText={setTitle} value={title} className="my-2"></ThemedTextInput>
         <ThemedView className="flex-row justify-end bg-transparent mt-2">
           <ThemedButton disabled={isLoading} onPress={saveProject} color="success">
-            <ThemedText type="defaultSemiBold" themeColorName={"white"}>{isLoading ? "Loading" : "Save Project"}</ThemedText>
+            <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+              {isLoading ? "Loading" : "Save Project"}
+            </ThemedText>
           </ThemedButton>
         </ThemedView>
       </ThemedView>

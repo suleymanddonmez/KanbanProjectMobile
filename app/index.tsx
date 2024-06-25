@@ -28,7 +28,7 @@ export default function Index() {
       setProjects(response.data);
     } else {
       console.log(response.error);
-      alert("An error occurred!");
+      // alert("An error occurred!");
     }
     setLoading(false, isRefresh);
   };
@@ -57,14 +57,7 @@ export default function Index() {
       onRefresh={() => getProjects(true)}
     >
       {projects?.map((project) => (
-        <Link
-          key={project.id}
-          href={{
-            pathname: "/projects/[id]",
-            params: { id: project.id },
-          }}
-          asChild
-        >
+        <Link key={project.id} href={`/projects/${project.id}`} asChild>
           <ThemedButton key={project.id} style={styles.projectButton} color="default">
             <ThemedText type="defaultSemiBold" style={styles.projectButtonText}>
               {project.title}

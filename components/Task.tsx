@@ -16,9 +16,11 @@ export function Task({ task }: TaskPropsType) {
           Edit
         </ThemedText>
       </Link>
-      <ThemedText type="defaultSemiBold" themeColorName={"white"}>
-        {task.title}
-      </ThemedText>
+      <Link className="cursor-pointer" href={`/tasks/${task.id}`} asChild>
+        <ThemedText type="defaultSemiBold" themeColorName={"white"}>
+          {task.title}
+        </ThemedText>
+      </Link>
       {task.description && (
         <ThemedText className="mt-2" themeColorName={"white"}>
           {task.description}

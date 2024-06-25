@@ -96,7 +96,7 @@ export function TaskForm({ taskInfo, onSave, onDelete, isLoading }: TaskFormProp
         <ThemedSelectInput label={"Task Tags"} onChangeValue={setTags} value={tags} items={categories} multiple />
         <ThemedView className={`flex-row justify-${onDelete ? "between" : "end"} bg-transparent mt-2`}>
           {onDelete && (
-            <ThemedButton disabled={isLoading} onPress={handleSave} color={"error"}>
+            <ThemedButton disabled={isLoading} onPress={handleDelete} color={"error"}>
               <ThemedText type="defaultSemiBold" themeColorName={"white"}>
                 {isLoading ? "Loading" : "Delete Task"}
               </ThemedText>

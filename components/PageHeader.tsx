@@ -38,7 +38,7 @@ export function PageHeader({ title, deleteAction, headerActions }: PageHeaderTyp
   return (
     <ThemedView className="p-4 flex-row justify-between items-center">
       <ThemedView>
-        <ThemedView className="flex-row items-center justify-center">
+        <ThemedView className="flex-row items-center justify-start gap-2">
           <ThemedText type="title">{title}</ThemedText>
           {deleteAction && (
             <ThemedButton size="small" onPress={deleteAction.onPress} style={deleteAction.style}>
